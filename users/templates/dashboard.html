@@ -1,0 +1,199 @@
+{% extends "base.html" %}
+
+
+{% block content %}
+
+<div class="dashboard-container">
+
+    <h1 class="dashboard-title">
+       وضعیت
+    </h1>
+
+
+    <div class="progress-box">
+
+        <h2>
+            پیشرفت:
+            <span>{{ progress }}%</span>
+        </h2>
+
+    </div>
+
+
+
+    <div class="stats-container">
+
+
+        <div class="stat-card">
+
+            <h3>
+                تعداد کل برنامه‌ها
+            </h3>
+
+            <p>
+                {{ total_plans }}
+            </p>
+
+        </div>
+
+
+
+        <div class="stat-card">
+
+            <h3>
+                تکمیل شده
+            </h3>
+
+            <p>
+                {{ completed_plans }}
+            </p>
+
+        </div>
+
+
+
+        <div class="stat-card">
+
+            <h3>
+                باقی مانده
+            </h3>
+
+            <p>
+                {{ pending_plans }}
+            </p>
+
+        </div>
+
+
+    </div>
+
+
+<p>{{ report.ai_feedback }}</p>
+
+
+
+
+
+    <div class="chart-card">
+
+
+        <h2>
+            گزارش موفقیت برنامه‌ها
+        </h2>
+
+
+        <div class="chart-container">
+
+            <canvas id="successChart"></canvas>
+
+        </div>
+
+
+    </div>
+
+
+</div>
+
+
+{% endblock %}
+
+
+
+
+
+{% block scripts %}
+
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+
+<script>
+
+
+fetch("{% url 'success_chart' %}")
+
+.then(response => response.json())
+
+.then(data => {
+
+
+    const ctx = document
+        .getElementById("successChart");
+
+
+
+    new Chart(ctx, {
+
+
+        type: "doughnut",
+
+
+        data: {
+
+
+            labels: data.labels,
+
+
+            datasets: [
+
+                {
+
+                    data: data.values,
+
+                    borderWidth: 2
+
+                }
+
+            ]
+
+
+        },
+
+
+        options: {
+
+
+            responsive: true,
+
+
+            cutout: "70%",
+
+
+            plugins: {
+
+
+                legend: {
+
+                    position: "bottom"
+
+                },
+
+
+                title: {
+
+                    display: true,
+
+
+                    text:
+                    `نرخ موفقیت: ${data.percent}%`
+
+                }
+
+
+            }
+
+
+        }
+
+
+    });
+
+
+
+});
+
+
+</script>
+
+
+{% endblock %}

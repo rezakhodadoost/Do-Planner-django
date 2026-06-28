@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+{% load jalali_filters %}
+{% block title %}لیست برنامه {% endblock %}
+
+{% block content %}
+<h1>برنامه ریزی</h1>
+
+<table>
+    <thead>
+        <tr>
+            <th>عنوان</th>
+            <th>تاریخ</th>
+            <th>ساعت</th>
+            <th>وضعیت</th>
+            <th>تکمیل</th>
+
+        </tr>
+    </thead>
+    <tbody>
+        {% for plan in plans %}
+        <tr>
+            <td>{{ plan.title }}</td>
+            <td>{{ plan.plan_date|to_jalali }}</td>
+            
+            <td>{{ plan.plan_time|time:"H:i" }}</td>
+            
+            <td>
+                <form method="post" action="{% url 'plan_toggle_completed' plan.pk %}" style="display:inline;">
+                    {% csrf_token %}
+                    {% if plan.completed %}
+                        <button type="submit" class="btn btn-secondary">برگرداندن به باقی‌مانده</button>
+                    {% else %}
+                        <button type="submit" class="btn">انجام شد</button>
+                    {% endif %}
+                </form>
+            </td>
+            <td>
+                <a class="btn" href="{% url 'plan_update' plan.pk %}">ویرایش</a>
+                <a class="btn btn-danger" href="{% url 'plan_delete' plan.pk %}">حذف</a>
+            </td>
+        </tr>
+        {% empty %}
+        <tr>
+            <td colspan="5">هنوز هیچ برنامه ثبت نکرده‌اید.</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<p style="margin-top:20px;">
+    <a class="btn" href="{% url 'plan_create' %}">+ افزودن برنامه جدید</a>
+</p>
+{% endblock %}

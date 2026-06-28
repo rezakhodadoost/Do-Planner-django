@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% block title %}حذف برنامه{% endblock %}
+
+{% block content %}
+<h1>حذف برنامه</h1>
+
+<form method="post">
+    {% csrf_token %}
+    <p>آیا از حذف «{{ object.title }}» مطمئن هستید؟</p>
+    <button type="submit" class="btn btn-danger">حذف</button>
+    <a class="btn" href="{% url 'plan_list' %}" style="background:#555;color:#fff;">انصراف</a>
+</form>
+{% endblock %}

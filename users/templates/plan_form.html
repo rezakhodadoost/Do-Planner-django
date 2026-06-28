@@ -1,0 +1,173 @@
+<!-- plan_form.html -->
+
+{% extends 'base.html' %}
+
+{% block title %}Create New Planner{% endblock %}
+
+
+{% block content %}
+
+<div class="container">
+
+    <div class="row justify-content-center">
+
+        <div class="col-md-6">
+
+
+            <div class="card shadow-lg">
+
+                <div class="card-header">
+
+                    <h3>
+                         ساخت برنامه 
+                    </h3>
+
+                </div>
+
+
+                <div class="card-body">
+
+
+                    <form method="post">
+
+                        {% csrf_token %}
+
+
+                        {% for field in form %}
+
+
+                        <div class="mb-3">
+
+
+                            <label 
+                            for="{{ field.id_for_label }}"
+                            class="form-label">
+
+                                {{ field.label }}
+
+                            </label>
+
+
+
+                            {{ field }}
+
+
+
+                            {% if field.errors %}
+
+                            <div class="alert alert-danger mt-2">
+
+                                {{ field.errors }}
+
+                            </div>
+
+                            {% endif %}
+
+
+
+                        </div>
+
+
+                        {% endfor %}
+
+
+
+
+                        <button 
+                        type="submit"
+                        class="btn btn-success">
+
+                             ذخیره
+
+                        </button>
+
+
+                        <a 
+                        href="{% url 'plan_list' %}"
+                        class="btn btn-secondary">
+
+                             برگشت
+
+                        </a>
+
+
+
+                    </form>
+
+
+                </div>
+
+
+            </div>
+
+
+        </div>
+
+    </div>
+
+</div>
+
+
+
+
+
+
+<link rel="stylesheet"
+href="https://cdn.jsdelivr.net/npm/persian-datepicker@1.2.0/dist/css/persian-datepicker.min.css">
+
+
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.min.js"></script>
+
+
+<script src="https://cdn.jsdelivr.net/npm/persian-date@1.1.0/dist/persian-date.min.js"></script>
+
+
+<script src="https://cdn.jsdelivr.net/npm/persian-datepicker@1.2.0/dist/js/persian-datepicker.min.js"></script>
+
+
+
+
+<script>
+
+
+$(document).ready(function(){
+
+
+    $("#id_plan_date").persianDatepicker({
+
+        format: "YYYY-MM-DD",
+
+        autoClose:true,
+
+        initialValue:false,
+
+
+        toolbox:{
+
+            todayButton:{
+                enabled:true
+            },
+
+
+            submitButton:{
+                enabled:true
+            }
+
+        },
+
+
+        calendar:{
+            persian:true
+        }
+
+    });
+
+
+});
+
+
+</script>
+
+
+
+{% endblock %}
